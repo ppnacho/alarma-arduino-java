@@ -12,24 +12,24 @@ import javax.sound.sampled.Clip;
  *
  * @author Saul Calderon
  */
-public class Controlador {
+public class ControladorAlarma {
     /** El comunicador arduino. */
-    private ComunicadorArduino comunicadorArduino;
+    private ComunicadorArduinoUSB comunicadorArduino;
     
     private boolean alarmaActivada = false;
     
     /** Ventana principal*/
     private VentanaPrincipal ventana;
     
-    public Controlador(){
-        this.comunicadorArduino = new ComunicadorArduino();
+    public ControladorAlarma(){
+        this.comunicadorArduino = new ComunicadorArduinoUSB();
         
     }
     
     public void iniciar(VentanaPrincipal ventana){
         this.ventana = ventana;
         this.comunicadorArduino.iniciar(9600, this);    
-        this.comunicadorArduino.setLeerArduino(false);
+        this.comunicadorArduino.setLeerDatosArduino(false);
         
     }
     
@@ -50,7 +50,7 @@ public class Controlador {
                 if(password.compareTo("123")== 0){
                     this.ventana.cambiarEtiquetaAlarma("Armar alarma");                    
                     this.ventana.mostrarMensaje("Contraseña correcta, alarma desarmada");
-                    this.comunicadorArduino.setLeerArduino(false);
+                    this.comunicadorArduino.setLeerDatosArduino(false);
                 }
                 else{
                     this.ventana.mostrarMensaje("Codigo incorrecto");
@@ -59,7 +59,7 @@ public class Controlador {
             else{//si no estaba armada, arma la alarma
                 this.ventana.cambiarEtiquetaAlarma("Desarmar alarma");
                 this.ventana. setMensajeBarraEstado("Alarma armada");
-                this.comunicadorArduino.setLeerArduino(true);
+                this.comunicadorArduino.setLeerDatosArduino(true);
             }
        }
        else{
@@ -68,7 +68,7 @@ public class Controlador {
                this.alarmaActivada = false;
                this.ventana.cambiarEtiquetaAlarma("Armar alarma");               
                this.ventana.mostrarMensaje("Contraseña correcta, alarma desactivada");
-               this.comunicadorArduino.setLeerArduino(false);
+               this.comunicadorArduino.setLeerDatosArduino(false);
            }
            else{
                 this.ventana.mostrarMensaje("Contraseña incorrecta");
