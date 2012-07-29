@@ -25,7 +25,7 @@ import gnu.io.*;
 /**
  * The Class ComunicadorArduino.
  */
-class ComunicadorArduino implements SerialPortEventListener{
+class ComunicadorArduinoUSB implements SerialPortEventListener{
    
    /** Recurso del puerto serial */
    SerialPort puertoSerial;   
@@ -36,7 +36,7 @@ class ComunicadorArduino implements SerialPortEventListener{
    BufferedReader lectorBuffer;   
    
    
-   Controlador controlador;
+   ControladorAlarma controlador;
    /** The graficador. */
   // Graficador graficador;
    
@@ -49,7 +49,7 @@ class ComunicadorArduino implements SerialPortEventListener{
     * @param nombrePuerto the nombre puerto
     * @param baudRate the baud rate
     */
-   public void iniciar(int baudRate, Controlador controlador){
+   public void iniciar(int baudRate, ControladorAlarma controlador){
        this.controlador = controlador;
        String[] nombresPuertos = new String[2];
        nombresPuertos[0] = "COM4";
@@ -102,7 +102,7 @@ class ComunicadorArduino implements SerialPortEventListener{
        }
    }
    
-   public void setLeerArduino(boolean leer){
+   public void setLeerDatosArduino(boolean leer){
        this.detener = !leer;
    }
 

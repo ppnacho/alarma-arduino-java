@@ -11,13 +11,13 @@ import javax.swing.JOptionPane;
  * @author Saul Calderon
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-    Controlador controlador;
+    ControladorAlarma controlador;
     /**
      * Creates new form MainWindow
      */
     public VentanaPrincipal() {
         initComponents();
-        this.controlador = new Controlador();
+        this.controlador = new ControladorAlarma();
         this.controlador.iniciar(this);
     }
     
