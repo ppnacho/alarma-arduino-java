@@ -12,7 +12,7 @@ import javax.sound.sampled.Clip;
  *
  * @author Saul Calderon
  */
-public class ControladorAlarma {
+public class ControladorAlarma implements InterfazControlador {
     /** El comunicador arduino. */
     private ComunicadorArduinoUSB comunicadorArduino;
     
@@ -49,6 +49,7 @@ public class ControladorAlarma {
                 String password = this.ventana.getCampoPassword();
                 if(password.compareTo("123")== 0){
                     this.ventana.cambiarEtiquetaAlarma("Armar alarma");                    
+                    this.comunicadorArduino.escribirDato('b');
                     this.ventana.mostrarMensaje("Contraseña correcta, alarma desarmada");
                     this.comunicadorArduino.setLeerDatosArduino(false);
                 }
@@ -57,6 +58,7 @@ public class ControladorAlarma {
                 }
             }
             else{//si no estaba armada, arma la alarma
+                this.comunicadorArduino.escribirDato('a');
                 this.ventana.cambiarEtiquetaAlarma("Desarmar alarma");
                 this.ventana. setMensajeBarraEstado("Alarma armada");
                 this.comunicadorArduino.setLeerDatosArduino(true);
@@ -104,6 +106,14 @@ public class ControladorAlarma {
             this.ventana.setMensajeBarraEstado("Alarma activada!!");
            // this.ventana.mostrarMensaje("Alarma activada!!!");
         }
+    }
+
+    @Override
+    public void recibirDatoArduino(String entrada) {
+         if(entrada.compareTo("---") == 0){
+            this.activarAlarma();
+        }
+        this.ventana.agregarABitacora(entrada);
     }
     
 }
