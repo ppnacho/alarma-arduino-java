@@ -24,5 +24,10 @@ public abstract class InterfazComunicador {
    public boolean leyendoArduino(){
        return !this.detener;
    }
+   
+     public abstract void  iniciar(int baudRate, ControladorAlarma controlador);
+     
+     public abstract void escribirArduino(String dato);
+     public abstract void escribirDato(int dato);
     
 }

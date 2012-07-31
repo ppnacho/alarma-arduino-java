@@ -25,12 +25,14 @@ import gnu.io.*;
 /**
  * The Class ComunicadorArduino.
  */
-class ComunicadorArduinoUSB implements SerialPortEventListener{
+class ComunicadorArduinoUSB extends InterfazComunicador implements SerialPortEventListener {
    
    /** Recurso del puerto serial */
    SerialPort puertoSerial;   
    /** The flujo entrada. */
    InputStream flujoEntrada;   
+   
+   OutputStream flujoSalida;
    
    /** The lector buffer. */
    BufferedReader lectorBuffer;   
@@ -40,8 +42,7 @@ class ComunicadorArduinoUSB implements SerialPortEventListener{
    /** The graficador. */
   // Graficador graficador;
    
-   /** Indica si se debe detener la lectura de datos del arduino*/
-   boolean detener = true;
+
    
    /**
     * Abre el flujo de entrada.
@@ -78,6 +79,7 @@ class ComunicadorArduinoUSB implements SerialPortEventListener{
             //abre el flujo de entrada
             try{
                 flujoEntrada = puertoSerial.getInputStream();
+                flujoSalida = this.puertoSerial.getOutputStream();
                 //El lector permite leer una linea a la vez
                 lectorBuffer = new BufferedReader(new InputStreamReader(flujoEntrada));
             } 
@@ -102,9 +104,7 @@ class ComunicadorArduinoUSB implements SerialPortEventListener{
        }
    }
    
-   public void setLeerDatosArduino(boolean leer){
-       this.detener = !leer;
-   }
+  
 
   
    /**
@@ -142,30 +142,25 @@ class ComunicadorArduinoUSB implements SerialPortEventListener{
          }
       }
    }
-   
-   /**
-    * Sets the graficador.
-    *
-    * @param plotter the new graficador
-    */
-/*   public void setGraficador(Graficador plotter){
-       this.graficador = plotter;
-   }*/
 
-   /**
-    * Conmutar leer datos.
-    * Si no esta leyendo los datos, empieza a hacerlo
-    * Si estaba leyendo los datos, deja de hacerlo
-    * @return true, si dejo de leer datos
-    */
-   public boolean conmutarLeerArduino(){
-       this.detener = !this.detener;
-       return this.detener;
-   }
-   
-   public boolean leyendoArduino(){
-       return !this.detener;
-   }
-   
+    @Override
+    public void escribirArduino(String dato) {
+        try{
+            this.flujoSalida.write(dato.getBytes());
+        }
+        catch(Exception ex){
+            System.out.println("No pudo escribir en puerto");
+        }
+    }
+
+    @Override
+    public void escribirDato(int dato) {
+        try{
+            this.flujoSalida.write(dato);
+        }
+        catch(Exception ex){
+            System.out.println("No pudo escribir en puerto");
+        }
+    }
    
 }
