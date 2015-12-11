@@ -1,0 +1,1 @@
+Alarma con sensor de movimiento
